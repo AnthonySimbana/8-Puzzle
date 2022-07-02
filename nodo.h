@@ -18,12 +18,12 @@ public:
         hijos = NULL;
         factorRamificacion = 0;
         costoRecorrido = 0;
+        profundidad=0;
     };
 
     nodo* autoApuntador() { //Retorna un puntero a si mismo
         return this;
     };
-
 
     //Implementación de la función sucesor
     void funcionSucesor(){           //CAMBIEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -43,8 +43,8 @@ public:
             {0, -1}//Traer la ficha de la izquierda del hueco
         };
 
+        //Arreglos de hijos
         hijos = new nodo*[movimientosTotales];
-
 
         //Para todos los movimientos actuales
         for(int i = 0; i < movimientosTotales; i++){
@@ -76,7 +76,6 @@ public:
 
     //Función evaluación de A estrella f(n) = g(n) + h(n)
     int funcionEvaluacion(){
-        //return e.distanciaManhattan();
         return costoRecorrido + e.distanciaManhattan();
     };
 
@@ -105,23 +104,18 @@ public:
     nodo **f;
     int nEf;
 
-    frontera(){
+    frontera(){         //Constructor
         f=NULL;
         nEf=0;
     }
-    frontera * autoApuntadorFront(){
+    frontera * autoApuntadorFront(){        //Retorna un autoapuntador a si mismo
         return this;
     }
-    bool fronteraVacia(){
-        if(f==NULL){
-                //cout<<"SE VACIO LA FRONTERA"<<endl;
-            return true;
-        }else{
-            //cout<<"LA FRONTERA TODAVIA TIENE ELEMENTOS"<<endl;
-            return false;
-        }
+    bool fronteraVacia(){                   //Función que verifica si la frontera esta vacia
+        return (f==NULL);
     };
 
+    //Función que añade un nuevo nodo al final
     void nuevoElemento (nodo *n){
         nodo **aux;                 //Arreglo temporal de punteros a nodos
         aux=new nodo* [nEf+1];      //Asigno dinamicamente nEf+1 elementos en ATPN (uno mas de lo que hay en f)
@@ -137,6 +131,7 @@ public:
         nEf++;                      //Aumento e numero de elementos de frontera
     };
 
+    //Función que extra el nodo con mejor F(n), sabiendo que F(n)=g(n)+h(n)
     nodo * extraerMejorF(){
         int menorValor=f[0]->funcionEvaluacion();
         int aux, posMenVal=0;
@@ -154,30 +149,7 @@ public:
         return f[posMenVal];
     };
 
-    nodo * extraerSegundoMejorF(){
-        int menorValor=f[0]->funcionEvaluacion();
-        int segundoMejor=menorValor;
-        int aux, posSegundoMejor=0;
-        if(nEf<1){
-            return f[0];
-        }else{
-            for(int i=1;i<nEf;i++){
-                aux = f[i]->funcionEvaluacion();
-                if(aux<menorValor){
-                    menorValor=aux;
-                    segundoMejor=menorValor;
-                    posSegundoMejor=i;
-                }else{
-                    if(aux<=segundoMejor){
-                        segundoMejor=aux;
-                        posSegundoMejor=i;
-                    }
-                }
-            }
-        }
-        return f[posSegundoMejor];
-    };
-
+    //Función que elimina un nodo
     bool eliminarElemento(nodo *n){
         bool resultado = false;
         nodo **aux;
@@ -215,6 +187,16 @@ public:
         return resultado;
     };
 
+    //Función que verifica si el estado de un nodo y igual a alguno de los estados de los nodos visitados
+    bool fueVisitado(nodo *n){
+        bool resultado = false;
+        for(int i=0;i<nEf;i++){
+            if(n->e.estadoIgual(f[i]->e)){
+                return true;
+            }
+        }
+        return false;
+    };
 };
 
 #endif // NODO_H_INCLUDED

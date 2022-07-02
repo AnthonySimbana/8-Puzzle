@@ -11,10 +11,10 @@ public:
 
     int fichas[FILAS*FILAS];//Representación del (N²-1)-puzzle en un arreglo de FILAS² posiciones
 
-    estado(){
-
+    estado(){           //Constructor
     };
 
+    //Función que recibe un int[] y lo coloca en fichas
     void setFichas(int fichas[FILAS * FILAS]){
         /*Función memcpy: Copia los valores de un arreglo en la variable fichas del estado.
          *Se declara el destino, origen y tamaño en bytes a copiar*/
@@ -104,6 +104,16 @@ public:
         int aux = fichas[posicionA];
         fichas[posicionA] = fichas[posicionB];
         fichas[posicionB] = aux;
+    }
+
+    //Función que compara estados y retorna true en caso se ser iguales
+    bool estadoIgual(estado es){
+        for(int i=0;i<FILAS*FILAS;i++){
+            if(es.fichas[i]!=fichas[i]){
+                return false;
+            }
+        }
+        return true;
     }
 };
 
