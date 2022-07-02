@@ -18,5 +18,5 @@ Estado objetivo
 |6|7|8|
 
 ## Descripción
-Para resolver el problema utiliza el algoritmo A* donde al expandir el árbol generado, el siguiente nodo a expandir es aquel con la mejor Funcion de evaluación F(n), sabiendo que F(n)=g(n)+h(n), donde g(n) es el costos del recorrido del nodo raiz al actual y h(n) es la heuristica.  
+Para resolver el problema utiliza el algoritmo A* donde al expandir el árbol generado, el siguiente nodo a expandir es aquel con la mejor Funcion de evaluación F(n), sabiendo que F(n)=g(n)+h(n), donde g(n) es el costo del recorrido del nodo raiz al actual y h(n) es la heuristica.  
 
