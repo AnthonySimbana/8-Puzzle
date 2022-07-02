@@ -2,7 +2,6 @@
 #define NODO_H_INCLUDED
 #include <iostream>
 #include "estado.h"
-#include "frontera.h"
 class nodo{
 public:
 
@@ -26,11 +25,11 @@ public:
     };
 
 
-    //Implementaci贸n de la funci贸n sucesor
-    int funcionSucesor(){           //CAMBIEEEEEEEEEEEEEEEEEEEEEEEEE
+    //Implementaci髇 de la funci髇 sucesor
+    void funcionSucesor(){           //CAMBIEEEEEEEEEEEEEEEEEEEEEEEEE
         int movimientosTotales = 4; //Existen 4 movimientos totales, izquierda, derecha, arriba y abajo.
         int numeroHijos = 0; //Contador de los hijos a ingresar
-        int posicionHueco = e.obtenerPosicionHueco(); //Posici贸n en forma de array del hueco del puzzle
+        int posicionHueco = e.obtenerPosicionHueco(); //Posici髇 en forma de array del hueco del puzzle
 
         //Posiciones en forma matricial del hueco del array. Sirven para comprobar que al mover la ficha, no se salga del rango filas y columnas: [0; N)
         int filaHueco = posicionHueco / FILAS;
@@ -59,10 +58,10 @@ public:
             hijos[numeroHijos] -> costoRecorrido = this -> costoRecorrido + 1;
             hijos[numeroHijos] -> e = this -> e;
 
-            //Se halla la posici贸n unidimensional de la siguiente posici贸n para realizar el intercambio, es decir, mover la ficha al hueco.
+            //Se halla la posici髇 unidimensional de la siguiente posici髇 para realizar el intercambio, es decir, mover la ficha al hueco.
             int siguientePosicion = ((filaHueco + acciones[i][0]) * FILAS) + columnaHueco + acciones[i][1];
 
-            //Se realiza el intercambio entre la posici贸n del hueco y la ficha disponible
+            //Se realiza el intercambio entre la posici髇 del hueco y la ficha disponible
             hijos[numeroHijos] -> e.intercambiarFichas(posicionHueco, siguientePosicion);
 
             //IMPRIMIR POR SI LAS MOSCAS
@@ -71,41 +70,19 @@ public:
             numeroHijos++;
         }
 
-        //Se configura el factor de ramificaci贸n de acuerdo al n煤mero de hijos que se obtuvo
+        //Se configura el factor de ramificaci髇 de acuerdo al n鷐ero de hijos que se obtuvo
         this -> factorRamificacion = numeroHijos;
-        return numeroHijos;
     };
-    /*
-    void expandir(int numeroHijos){
-        hijos = new nodo*[numeroHijos];
-        for(int i=0; i<numeroHijos;i++){
-            hijos[0] = new nodo();
-            hijos[0] -> padre = this;
-            hijos[numeroHijos] -> profundidad = this -> profundidad + 1;
-            hijos[numeroHijos] -> costoRecorrido = this -> costoRecorrido + 1;
-            hijos[numeroHijos] -> e = this -> e;
 
-            //Se halla la posici贸n unidimensional de la siguiente posici贸n para realizar el intercambio, es decir, mover la ficha al hueco.
-            int siguientePosicion = ((filaHueco + acciones[i][0]) * FILAS) + columnaHueco + acciones[i][1];
-
-            //Se realiza el intercambio entre la posici贸n del hueco y la ficha disponible
-            hijos[numeroHijos] -> e.intercambiarFichas(posicionHueco, siguientePosicion);
-
-            //IMPRIMIR POR SI LAS MOSCAS
-            cout<<endl;
-            hijos[numeroHijos]->e.imprimirEstado();
-        }
-    };
-    */
-    //Funci贸n evaluaci贸n de A estrella f(n) = g(n) + h(n)
+    //Funci髇 evaluaci髇 de A estrella f(n) = g(n) + h(n)
     int funcionEvaluacion(){
-        return e.distanciaManhattan();
-        //return costoRecorrido + e.distanciaManhattan();
+        //return e.distanciaManhattan();
+        return costoRecorrido + e.distanciaManhattan();
     };
 
     //Imprimir el recorrido total de un nodo seleccionando sus padres
     void imprimirRecorrido(){
-        //Se almacenan los nodos en un arreglo din谩mico
+        //Se almacenan los nodos en un arreglo din醡ico
         nodo* aux = this;
         nodo** solucion = new nodo*[22];
         int i;
@@ -115,7 +92,7 @@ public:
         }
         solucion[i] = aux;
 
-        //Se imprime desde el 煤ltimo hasta el primer (padre == NULL)
+        //Se imprime desde el 鷏timo hasta el primer (padre == NULL)
         for(int j = i; j > -1; j--){
             solucion[j]->e.imprimirEstado();
             cout << "Costo recorrido: " << solucion[j] -> costoRecorrido << endl << endl;
@@ -175,6 +152,30 @@ public:
             }
         }
         return f[posMenVal];
+    };
+
+    nodo * extraerSegundoMejorF(){
+        int menorValor=f[0]->funcionEvaluacion();
+        int segundoMejor=menorValor;
+        int aux, posSegundoMejor=0;
+        if(nEf<1){
+            return f[0];
+        }else{
+            for(int i=1;i<nEf;i++){
+                aux = f[i]->funcionEvaluacion();
+                if(aux<menorValor){
+                    menorValor=aux;
+                    segundoMejor=menorValor;
+                    posSegundoMejor=i;
+                }else{
+                    if(aux<=segundoMejor){
+                        segundoMejor=aux;
+                        posSegundoMejor=i;
+                    }
+                }
+            }
+        }
+        return f[posSegundoMejor];
     };
 
     bool eliminarElemento(nodo *n){
