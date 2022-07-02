@@ -18,7 +18,7 @@ Estado objetivo
 |6|7|8|
 
 ## Descripción
-Considerando que el número cero (0) representa un espacio en blanco para simular el desplazamiento de fichas. Este programa resuelve el problema utilizando el algoritmo A* donde al expandir el árbol generado, el siguiente nodo a expandir es aquel con la mejor Funcion de evaluación F(n), sabiendo que F(n)=g(n)+h(n), donde g(n) es el costo del recorrido del nodo raiz al actual y h(n) es la heuristica.  
+Considerando que el número cero (0) representa un espacio en blanco para simular el desplazamiento de fichas. Este programa en c++ resuelve el problema utilizando el algoritmo A* donde al expandir el árbol generado, el siguiente nodo a expandir es aquel con la mejor Funcion de evaluación F(n), sabiendo que F(n)=g(n)+h(n), donde g(n) es el costo del recorrido del nodo raiz al actual y h(n) es la heuristica.  
 
 ## Resultado
 
